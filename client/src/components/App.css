@@ -1,0 +1,180 @@
+#calendar {
+  display: flex;
+  text-align: center;
+}
+
+#previous, #next {
+  position: fixed;
+  top: 20px;
+  height: 30px;
+  width: fit-content;
+  align-self: center;
+  align-items: center;
+  padding: 0 15px;
+  margin: 20px;
+}
+
+#previous {
+  left: 10vw;
+}
+
+#next {
+  right: 10vw;
+}
+
+#calendar div#dayOfWeek:nth-child(2) {
+  border-left: 2px solid black;
+}
+
+#calendar div#dayOfWeek {
+  justify-content: center;
+  border-right: 2px solid black;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  min-height: 70vh;
+  max-height: fit-content;
+  width: 10vw;
+}
+
+#calendar > div > p {
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
+}
+
+/* #calendar .sortableList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+} */
+
+#calendar .item {
+  width: inline-block;
+  cursor: pointer;
+  list-style: none;
+  padding: 10px 5px;
+  border: 1px solid black;
+  border-radius: 20px;
+  background-color: rgba(10, 10, 10, 0.5);
+  margin:10px 10px;
+  box-shadow: -3px 3px 5px black;
+}
+
+#calendar .item p {
+  margin: 0;
+}
+
+
+
+
+/* #addItemForm {
+  display: none;
+} */
+
+#addItemButton {
+  position: fixed;
+  margin: 10px;
+  top: 0;
+  right: 0;
+}
+
+#addItemForm {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  top:0;
+  left:0;
+}
+
+#addItemForm form {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background-color: black;
+  padding: 100px 100px 130px 100px;
+  top: 50%;
+  left: 50%;
+  margin-left: -250px;
+  margin-top: -300px;
+  border-radius: 30px;
+}
+
+#addItemForm form label {
+  text-align: left;
+}
+
+#addItemForm form input {
+  padding: 5px;
+}
+
+#addItemForm form #close {
+  width: fit-content;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 18px;
+  background-color: black;
+}
+
+#addItemForm form #confirmation {
+  position: absolute;
+  left: 50%;
+  bottom: 70px;
+  transform: translateX(-50%);
+}
+
+.item.dragging :where(#details) {
+  opacity: 0;
+}
+
+
+
+
+
+
+
+
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
