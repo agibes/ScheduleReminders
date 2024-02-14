@@ -53,14 +53,26 @@ const createInitialEvents = async () => {
   const eventsToCreate = [
     {
       name: 'Item 1',
-      date: new Date()
+      date: '2024-02-14'
     },
     {
       name: 'Item 2',
-      date: new Date()
+      date: '2024-02-13'
     },
     {
       name: 'Item 3',
+    },
+    {
+      name: 'Item 4',
+      date: '2024-02-12'
+    },
+    {
+      name: 'Item 5',
+      date: '2024-02-12'
+    },
+    {
+      name: 'Item 6',
+      date: '2024-02-06'
     },
   ]
   const events = await Promise.all(
