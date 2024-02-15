@@ -29,3 +29,19 @@ export const createEvent = async (eventData) => {
         console.log(err);
     }
 }
+
+export const updateEvent = async (eventId, eventData) => {
+    try {
+        const response = await fetch (`api/events`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(eventId, eventData)
+        });
+        const updatedEvent = await response.json();
+        return updatedEvent;
+    } catch (err) {
+        console.error(err);
+    }
+}

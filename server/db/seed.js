@@ -1,6 +1,6 @@
 const client = require('./client');
 const {
-  createEvent
+  createEvent, getEventById, updateEvent
 } = require('./index.js');
 
 const dropTables = async () => {

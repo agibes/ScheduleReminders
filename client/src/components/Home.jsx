@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import reactLogo from '../assets/react.svg';
-import {getAllEvents} from '../api';
+import {getAllEvents, updateEvent} from '../api';
 import {CreateEventForm} from './index';
 import './App.css';
 
@@ -11,6 +11,7 @@ const Home = () => {
     const [weekDates, setWeekDates] = useState([]);
     const [goPrev, setGoPrev] = useState(-1);
     const [goNext, setGoNext] = useState(1);
+    const [changeDate, setChangeDate] = useState(false);
     const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   
     let time = new Date().toLocaleTimeString();
@@ -31,8 +32,15 @@ const Home = () => {
       return week;
     }
 
+    useEffect(() => {
+      try {
+        setWeekDates(findWeekDates(0, currentDayOfWeek));
+      } catch (err) {
+        console.error(err);
+      }
+    }, []);
+
     useEffect(()=>{
-      setWeekDates(findWeekDates(0, currentDayOfWeek));
       const fetchEvents = async () => {
         try {
           setEventItems(await getAllEvents());
@@ -41,7 +49,7 @@ const Home = () => {
         }
       };
       fetchEvents();
-    }, []);
+    }, [changeDate]);
 
     const updateTime = () => {
       let time = new Date().toLocaleTimeString();
@@ -79,7 +87,12 @@ const Home = () => {
       const currentIndex = eventItems.indexOf(draggingItem);
       const targetIndex = eventItems.indexOf(targetItem);
   
+      //cannot drag to a empty dayOfWeek box
       if (currentIndex !== -1 && targetIndex !== -1) {
+        if (eventItems[currentIndex].date != eventItems[targetIndex].date) {
+          setChangeDate(!changeDate);
+          updateEvent({id: eventItems[currentIndex].id, date: eventItems[targetIndex].date});
+        }
         eventItems.splice(currentIndex, 1);
         eventItems.splice(targetIndex, 0, draggingItem);
         setEventItems(eventItems);
