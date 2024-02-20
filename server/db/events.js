@@ -17,20 +17,19 @@ const getEventById = async (id) => {
         SELECT * FROM events
         WHERE id = $1;
         `, [id]);
-
         return event;
     } catch (err) {
         console.error(err);
     }
 }
 
-const createEvent = async ({name, date, time, location}) => {
+const createEvent = async ({name, notes, date, time}) => {
     try {
         const {rows: [event]} = await client.query(`
-            INSERT INTO events(name, date, time, location)
+            INSERT INTO events(name, notes, date, time)
             VALUES ($1, $2, $3, $4)
             RETURNING *;
-        `, [name, date, time, location]);
+        `, [name, notes, date, time]);
         return event;
     } catch (err) {
         console.error(err);

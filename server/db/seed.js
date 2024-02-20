@@ -29,9 +29,9 @@ const createTables = async () => {
     CREATE TABLE events(
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
+      notes VARCHAR(255),
       date DATE DEFAULT NULL,
-      time TIME DEFAULT NULL,
-      location VARCHAR(255) DEFAULT NULL
+      time TIME DEFAULT NULL
     );
     `);
     console.log(
@@ -57,7 +57,7 @@ const createInitialEvents = async () => {
     },
     {
       name: 'Item 2',
-      date: '2024-02-13'
+      date: '2024-02-12'
     },
     {
       name: 'Item 3',
@@ -68,11 +68,12 @@ const createInitialEvents = async () => {
     },
     {
       name: 'Item 5',
-      date: '2024-02-12'
+      date: '2024-02-18'
     },
     {
       name: 'Item 6',
-      date: '2024-02-06'
+      notes: 'some notes',
+      date: '2024-02-23'
     },
   ]
   const events = await Promise.all(

@@ -23,7 +23,6 @@ export const createEvent = async (eventData) => {
             body: JSON.stringify(eventData)
         });
         const newEvent = await response.json();
-        console.log(newEvent);
         return newEvent;
     } catch (err) {
         console.log(err);

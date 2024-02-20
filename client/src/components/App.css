@@ -22,11 +22,11 @@
   right: 10vw;
 }
 
-#calendar div#dayOfWeek:nth-child(2) {
+#calendar div.dayOfWeek:nth-child(2) {
   border-left: 2px solid black;
 }
 
-#calendar div#dayOfWeek {
+#calendar div.dayOfWeek {
   justify-content: center;
   border-right: 2px solid black;
   border-top: 2px solid black;
@@ -62,6 +62,11 @@
 
 #calendar .item p {
   margin: 0;
+}
+
+#calendar .item p.smallText {
+  font-size: .75rem;
+  color: rgba(255, 255, 255, 0.67);
 }
 
 

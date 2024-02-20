@@ -12,9 +12,9 @@ eventsRouter.get('/', async (req, res, next) => {
 })
 
 eventsRouter.post('/', async (req, res, next) => {
-    const {name, date, time, location} = req.body;
+    const {name, notes, date, time} = req.body;
     try {
-        const newEvent = await createEvent({name, date, time, location});
+        const newEvent = await createEvent({name, notes, date, time});
         res.send({newEvent});
     } catch (err) {
         next(err);
