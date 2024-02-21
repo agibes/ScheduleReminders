@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {createEvent} from '../api';
 
-const createEventForm = ({setShowCreateEventForm}) => {
+const createEventForm = ({setShowCreateEventForm, changeDate, setChangeDate}) => {
 
     const [name, setName] = useState("");
     const [date, setDate] = useState();
@@ -19,6 +19,7 @@ const createEventForm = ({setShowCreateEventForm}) => {
         try {
             const eventData = {name, notes, date, time};
             await createEvent(eventData);
+            setChangeDate(!changeDate);
             sendConfirmation();
         } catch (err) {
             console.error(err);
@@ -26,8 +27,7 @@ const createEventForm = ({setShowCreateEventForm}) => {
     }
 
     return (
-        <div id="addItemForm">
-        <form id="createEventForm" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <button id="close" onClick={() => setShowCreateEventForm(false)}>X</button>
           <label className="createEventLabel">Event name: </label>
           <input type="text" id="eventName" className="createEventInput" value={name} onChange={(e) => setName(e.target.value)}/> 
@@ -44,7 +44,6 @@ const createEventForm = ({setShowCreateEventForm}) => {
           <input type="submit" value="Submit"/> <br/>
           <p id="confirmation"></p>
         </form>
-      </div>
     );
 };
 

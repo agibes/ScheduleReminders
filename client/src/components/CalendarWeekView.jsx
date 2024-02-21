@@ -2,13 +2,10 @@ import {useState} from "react";
 import {updateEvent, } from '../api';
 import {findWeekDates} from '../utils';
 
-const calendar = ({weekDates, setWeekDates, eventItems, setEventItems, changeDate, setChangeDate}) => {
-    const [goPrev, setGoPrev] = useState(-1);
-    const [goNext, setGoNext] = useState(1);
+const calendarWeekView = ({currentDateTime, weekInFocus, setWeekInFocus, eventItems, setEventItems, changeDate, setChangeDate, weekModNext, setWeekModNext, weekModPrev, setWeekModPrev}) => {
     const [draggingItem, setDraggingItem] = useState(null);
 
     const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    const currentDayOfWeek = new Date().getDay();
 
     const updateItemStyles = (e) => {
         if (e.style.textDecoration == "") {
@@ -33,8 +30,9 @@ const calendar = ({weekDates, setWeekDates, eventItems, setEventItems, changeDat
       const handleDrop = (e, eventItem) => {
         if (!draggingItem) return;
         const currentIndex = eventItems.indexOf(draggingItem);
+        
         if (!eventItem) {
-          const targetDate = new Date(Date.parse(weekDates[e.target.id]));
+          const targetDate = new Date(Date.parse(weekInFocus[e.target.id]));
           const dateString = `${targetDate.getFullYear()}-${targetDate.getMonth() + 1}-${targetDate.getDate()}`;
           updateEvent({id: eventItems[currentIndex].id, date: dateString});
         } else {
@@ -55,21 +53,21 @@ const calendar = ({weekDates, setWeekDates, eventItems, setEventItems, changeDat
     return (
         <>
             <button id="previous" onClick={() => {
-                setGoPrev((goPrev) => goPrev -= 1);
-                setGoNext((goPrev) => goPrev -= 1);
-                setWeekDates(findWeekDates(goPrev, currentDayOfWeek));
+                setWeekModPrev((weekModPrev) => weekModPrev -= 1);
+                setWeekModNext((weekModPrev) => weekModPrev -= 1);
+                setWeekInFocus(findWeekDates(weekModPrev, currentDateTime));
             }}>&#x2190;</button>
             {weekday.map((day, index) => {
                 return(
                     <div className="dayOfWeek" id={index} key={index} onDrop={(e)=>handleDrop(e)} onDragOver={handleDragOver}>
-                        {weekDates.length > 0 &&
-                          <p key={index} className="datedate">{day}<br /> {weekDates[index].slice(4)}</p>
+                        {weekInFocus.length > 0 &&
+                          <p key={index} className="day">{day}<br /> {weekInFocus[index].slice(4)}</p>
                         }
 
                         <div className="sortableList">
                             {eventItems.map((eventItem) => {
                                 const eventItemDate = new Date(Date.parse(eventItem.date)).toDateString();
-                                if (eventItemDate == weekDates[index]) {
+                                if (eventItemDate == weekInFocus[index]) {
                                     return(
                                         <div key={eventItem.id} className={`item ${eventItem === draggingItem ? 'dragging' : ''}`} draggable="true" 
                                         onDragStart={(e) => handleDragStart(e, eventItem)}
@@ -89,12 +87,12 @@ const calendar = ({weekDates, setWeekDates, eventItems, setEventItems, changeDat
                 );
             })}
             <button id="next" onClick={() => {
-                setGoNext((goNext) => goNext += 1);
-                setGoPrev((goNext) => goNext += 1);
-                setWeekDates(findWeekDates(goNext, currentDayOfWeek));
+                setWeekModNext((weekModNext) => weekModNext += 1);
+                setWeekModPrev((weekModNext) => weekModNext += 1);
+                setWeekInFocus(findWeekDates(weekModNext, currentDateTime));
             }}>&#x2192;</button>
         </>
     );
 };
 
-export default calendar;
+export default calendarWeekView;

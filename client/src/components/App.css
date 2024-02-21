@@ -1,11 +1,11 @@
-#calendar {
+.calendar {
   display: flex;
   text-align: center;
 }
 
 #previous, #next {
-  position: fixed;
-  top: 20px;
+  position: absolute;
+  top: 120px;
   height: 30px;
   width: fit-content;
   align-self: center;
@@ -22,11 +22,11 @@
   right: 10vw;
 }
 
-#calendar div.dayOfWeek:nth-child(2) {
+.calendar div.dayOfWeek:nth-child(2) {
   border-left: 2px solid black;
 }
 
-#calendar div.dayOfWeek {
+.calendar div.dayOfWeek {
   justify-content: center;
   border-right: 2px solid black;
   border-top: 2px solid black;
@@ -36,35 +36,29 @@
   width: 10vw;
 }
 
-#calendar > div > p {
+.calendar > div > p {
   border-bottom: 1px solid black;
   padding-bottom: 10px;
+  margin-bottom: 0;
 }
 
-/* #calendar .sortableList {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0;
-} */
-
-#calendar .item {
+.calendar .item {
   width: inline-block;
   cursor: pointer;
   list-style: none;
-  padding: 10px 5px;
+  padding: 3px 5px;
   border: 1px solid black;
-  border-radius: 20px;
+  border-radius: 5px;
   background-color: rgba(10, 10, 10, 0.5);
-  margin:10px 10px;
-  box-shadow: -3px 3px 5px black;
+  margin:10px 10px 0px 10px;
+  box-shadow: -2px 2px 5px rgba(0,0,0,0.5);
 }
 
-#calendar .item p {
+.calendar .item p {
   margin: 0;
 }
 
-#calendar .item p.smallText {
+.calendar .item p.smallText {
   font-size: .75rem;
   color: rgba(255, 255, 255, 0.67);
 }
@@ -72,18 +66,20 @@
 
 
 
-/* #addItemForm {
-  display: none;
-} */
-
 #addItemButton {
-  position: fixed;
+  position: absolute;
   margin: 10px;
   top: 0;
   right: 0;
 }
+#calendarView {
+  position: absolute;
+  margin: 10px;
+  top: 0;
+  right: 7rem;
+}
 
-#addItemForm {
+.createEventForm {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0,0,0,0.5);
@@ -92,7 +88,7 @@
   left:0;
 }
 
-#addItemForm form {
+.createEventForm form {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -106,15 +102,15 @@
   border-radius: 30px;
 }
 
-#addItemForm form label {
+.createEventForm form label {
   text-align: left;
 }
 
-#addItemForm form input {
+.createEventForm form input {
   padding: 5px;
 }
 
-#addItemForm form #close {
+.createEventForm form #close {
   width: fit-content;
   position: absolute;
   top: 10px;
@@ -123,7 +119,7 @@
   background-color: black;
 }
 
-#addItemForm form #confirmation {
+.createEventForm form #confirmation {
   position: absolute;
   left: 50%;
   bottom: 70px;
@@ -136,9 +132,40 @@
 
 
 
+.calendarMonthView .dayOfWeek {
+  display:grid;
+  grid-template-rows: .5fr 2fr 2fr 2fr 2fr 2fr 2fr;
+  grid-template-columns: repeat(1, 1fr [col-start]);
+}
 
+.smallNumber {
+  font-size: .75rem;
+  color: rgba(255, 255, 255, 0.77);
+  position: absolute;
+  display: inline-block;
+  padding: 5px 7px 5px 5px;
+  margin: 0;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom-right-radius: 11px;
+}
 
+.notCurrentMonth {
+  color: rgba(255, 255, 255, 0.47);
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
 
+.dateContainer {
+  border-bottom: 1px solid black;
+  /* height: 18%; */
+  width: 100%;
+  text-align: left;
+}
+
+.dateContainer .item {
+  margin:5px 10px 5px 40px;
+}
 
 
 
