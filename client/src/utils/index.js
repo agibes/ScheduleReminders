@@ -3,9 +3,7 @@ export const findWeekDates = (weekMod, today) => {
     for (var i = 0; i < 7; i++) {      
       const newDate = new Date();
       const dateToAdd = newDate.setDate(newDate.getDate() + (weekMod * 7) + i - today.getDay());
-
-      const dateObject = new Date(dateToAdd);
-      week.push(dateObject.toDateString());
+      week.push(new Date(dateToAdd));
     }
     return week;
 }
@@ -25,4 +23,12 @@ export const findMonth = (monthMod, today) => {
     }
   }
   return month;
+}
+
+export const updateItemStyles = (e) => {
+  if (e.style.textDecoration == "") {
+    e.style.textDecoration = "line-through";
+  } else {
+    e.style.textDecoration = "";
+  }
 }

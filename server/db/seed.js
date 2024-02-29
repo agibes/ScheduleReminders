@@ -30,8 +30,7 @@ const createTables = async () => {
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
       notes VARCHAR(255),
-      date DATE DEFAULT NULL,
-      time TIME DEFAULT NULL
+      utcdatetime TIMESTAMPTZ DEFAULT NULL
     );
     `);
     console.log(
@@ -53,27 +52,27 @@ const createInitialEvents = async () => {
   const eventsToCreate = [
     {
       name: 'Item 1',
-      date: '2024-02-14'
+      utcdatetime: '2024-02-26 14:33:00', //2024-02-26T20:33:00.000Z
     },
     {
       name: 'Item 2',
-      date: '2024-02-12'
+      utcdatetime: '2024-02-28'
     },
     {
       name: 'Item 3',
     },
     {
       name: 'Item 4',
-      date: '2024-02-12'
+      utcdatetime: '2024-02-29'
     },
     {
       name: 'Item 5',
-      date: '2024-02-18'
+      utcdatetime: '2024-02-25'
     },
     {
       name: 'Item 6',
       notes: 'some notes',
-      date: '2024-02-23'
+      utcdatetime: '2024-02-25'
     },
   ]
   const events = await Promise.all(

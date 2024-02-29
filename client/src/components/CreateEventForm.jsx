@@ -5,7 +5,7 @@ const createEventForm = ({setShowCreateEventForm, changeDate, setChangeDate}) =>
 
     const [name, setName] = useState("");
     const [date, setDate] = useState();
-    const [time, setTime] = useState();
+    const [time, setTime] = useState("00:00");
     const [notes, setNotes] = useState("");
 
     const sendConfirmation = () => {
@@ -17,7 +17,8 @@ const createEventForm = ({setShowCreateEventForm, changeDate, setChangeDate}) =>
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const eventData = {name, notes, date, time};
+            const utcdatetime = new Date(`${date} ${time}`);
+            const eventData = {name, notes, utcdatetime};
             await createEvent(eventData);
             setChangeDate(!changeDate);
             sendConfirmation();

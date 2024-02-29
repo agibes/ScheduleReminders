@@ -4,3 +4,4 @@ export {default as CalendarWeekView} from './CalendarWeekView.jsx';
 export {default as CalendarMonthView} from './CalendarMonthView.jsx';
 export {default as CreateEventForm} from './CreateEventForm.jsx';
 export {default as ViteReact} from './ViteReact.jsx';
+export {default as UpdateTimeForm} from './UpdateTimeForm.jsx';

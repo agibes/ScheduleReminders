@@ -3,7 +3,12 @@ const client = require("./client");
 const getAllEvents = async () => {
     try {
         const {rows: events} = await client.query(`
-        SELECT * FROM events
+        SELECT 
+            id,
+            name,
+            notes,
+            utcdatetime
+        FROM events
         `);
         return events;
     } catch (err) {
@@ -23,13 +28,13 @@ const getEventById = async (id) => {
     }
 }
 
-const createEvent = async ({name, notes, date, time}) => {
+const createEvent = async ({name, notes, utcdatetime}) => {
     try {
         const {rows: [event]} = await client.query(`
-            INSERT INTO events(name, notes, date, time)
-            VALUES ($1, $2, $3, $4)
+            INSERT INTO events(name, notes, utcdatetime)
+            VALUES ($1, $2, $3)
             RETURNING *;
-        `, [name, notes, date, time]);
+        `, [name, notes, utcdatetime]);
         return event;
     } catch (err) {
         console.error(err);
