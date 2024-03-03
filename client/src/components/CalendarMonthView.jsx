@@ -1,44 +1,7 @@
-import {useState} from "react";
-import {updateEvent, } from '../api';
-import {findMonth, updateItemStyles} from '../utils';
+import {findMonth, updateItemStyles, handleDragOver, handleDragStart, handleDrop} from '../utils';
 
 const calendarMonthView = ({draggingItem, setDraggingItem, currentDateTime, monthInFocus, setMonthInFocus, eventItems, setEventItems, changeDate, setChangeDate, monthModNext, setMonthModNext, monthModPrev, setMonthModPrev, setShowUpdateTime}) => {
     const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-
-    const handleDragStart = (e, eventItem) => {
-        setDraggingItem(eventItem);
-      }
-    
-    const handleDragOver = (e) => {
-        e.preventDefault();
-      }
-    
-    const handleDrop = (e, eventItem) => {
-      if (!draggingItem) return;
-      const currentIndex = eventItems.indexOf(draggingItem);
-      const draggingItemTime = new Date(eventItems[currentIndex].utcdatetime).toLocaleTimeString();
-
-      if (!eventItem) {
-        const targetDate = new Date(Date.parse(e.target.id));
-        const dateString = `${targetDate.getFullYear()}-${targetDate.getMonth() + 1}-${targetDate.getDate()} ${draggingItemTime}`;
-        updateEvent({id: eventItems[currentIndex].id, utcdatetime: dateString});
-      } else {
-        e.stopPropagation();
-        const targetIndex = eventItems.indexOf(eventItem);
-        const draggingItemDate = new Date(eventItems[currentIndex].utcdatetime).toLocaleDateString();
-        const targetItemDate = new Date(eventItems[targetIndex].utcdatetime).toLocaleDateString();
-        if (currentIndex !== -1 && targetIndex !== -1) {
-          if (draggingItemDate != targetItemDate) {
-            const datetimeString = `${targetItemDate} ${draggingItemTime}`;
-            updateEvent({id: eventItems[currentIndex].id, utcdatetime: datetimeString});
-          } else {
-            setShowUpdateTime(true);
-          }
-          setEventItems(eventItems);
-        }
-      }
-      setChangeDate(!changeDate);
-    }
 
     return (
     <>
@@ -49,7 +12,7 @@ const calendarMonthView = ({draggingItem, setDraggingItem, currentDateTime, mont
       }}>&#x2190;</button>
       {weekday.map((day, index) => {
         return(
-          <div className="dayOfWeek" id={index} key={index} onDrop={(e)=>handleDrop(e)} onDragOver={handleDragOver}>
+          <div className="dayOfWeek" id={index} key={index} onDrop={(e)=>handleDrop(e, draggingItem, eventItems, changeDate, setChangeDate, setEventItems, setShowUpdateTime)} onDragOver={handleDragOver}>
             <p key={index} className="day">{day}</p>
             {monthInFocus.map((dayOfMonth) => {
               const eventsInFocus = eventItems.filter((eventItem)=>new Date(Date.parse(eventItem.utcdatetime)).toDateString() == dayOfMonth.toDateString());
@@ -61,8 +24,8 @@ const calendarMonthView = ({draggingItem, setDraggingItem, currentDateTime, mont
                   {sortedEvents.map(eventItem=> {
                     return (
                       <div key={eventItem.id} className={`item ${eventItem === draggingItem ? 'dragging' : ''}`} draggable="true" 
-                      onDragStart={(e) => handleDragStart(e, eventItem)}
-                      onDrop={(e) => handleDrop(e, eventItem)}
+                      onDragStart={(e) => handleDragStart(e, eventItem, setDraggingItem)}
+                      onDrop={(e) => handleDrop(e, draggingItem, eventItems, changeDate, setChangeDate, setEventItems, setShowUpdateTime, eventItem)}
                       >
                         <div className="details" onClick={(e) => updateItemStyles(e.target)}>
                           <p>{eventItem.name}</p>

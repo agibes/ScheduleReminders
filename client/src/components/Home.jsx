@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {getAllEvents} from '../api';
-import {findWeekDates, findMonth} from '../utils';
+import {findWeekDates, findMonth, handleDrop} from '../utils';
 import {CalendarWeekView, CalendarMonthView, CreateEventForm, ViteReact, UpdateTimeForm} from './index';
 import './App.css';
 
@@ -63,26 +63,61 @@ const Home = () => {
   
         {showCalendarWeekView &&
           <div className="calendar calendarWeekView">
-            <CalendarWeekView const draggingItem={draggingItem} setDraggingItem={setDraggingItem} currentDateTime={currentDateTime} weekInFocus={weekInFocus} setWeekInFocus={setWeekInFocus} eventItems={eventItems} setEventItems={setEventItems} changeDate={changeDate} setChangeDate={setChangeDate} weekModNext={weekModNext} setWeekModNext={setWeekModNext} weekModPrev={weekModPrev} setWeekModPrev={setWeekModPrev} setShowUpdateTime={setShowUpdateTime} />
+            <CalendarWeekView 
+              changeDate={changeDate} 
+              setChangeDate={setChangeDate} 
+              currentDateTime={currentDateTime} 
+              draggingItem={draggingItem} 
+              setDraggingItem={setDraggingItem} 
+              eventItems={eventItems} 
+              setEventItems={setEventItems} 
+              weekInFocus={weekInFocus} 
+              setWeekInFocus={setWeekInFocus} 
+              weekModNext={weekModNext} 
+              setWeekModNext={setWeekModNext} 
+              weekModPrev={weekModPrev} 
+              setWeekModPrev={setWeekModPrev} 
+              setShowUpdateTime={setShowUpdateTime} />
           </div>
         }
 
         {showCalendarMonthView &&
           <div className="calendar calendarMonthView">
-            <CalendarMonthView draggingItem={draggingItem} setDraggingItem={setDraggingItem} currentDateTime={currentDateTime} monthInFocus={monthInFocus} setMonthInFocus={setMonthInFocus} eventItems={eventItems} setEventItems={setEventItems} changeDate={changeDate} setChangeDate={setChangeDate} monthModNext={monthModNext} setMonthModNext={setMonthModNext} monthModPrev={monthModPrev} setMonthModPrev={setMonthModPrev} setShowUpdateTime={setShowUpdateTime}/>
+            <CalendarMonthView 
+              changeDate={changeDate} 
+              setChangeDate={setChangeDate} 
+              currentDateTime={currentDateTime} 
+              draggingItem={draggingItem} 
+              setDraggingItem={setDraggingItem} 
+              eventItems={eventItems} 
+              setEventItems={setEventItems} 
+              monthInFocus={monthInFocus} 
+              setMonthInFocus={setMonthInFocus} 
+              monthModNext={monthModNext} 
+              setMonthModNext={setMonthModNext} 
+              monthModPrev={monthModPrev} 
+              setMonthModPrev={setMonthModPrev}
+              setShowUpdateTime={setShowUpdateTime} />
           </div>
         }
         
         {showCreateEventForm &&
-            <div className="createEventForm">
-                <CreateEventForm setShowCreateEventForm={setShowCreateEventForm} changeDate={changeDate} setChangeDate={setChangeDate}/>
-            </div>
+          <div className="createEventForm">
+            <CreateEventForm 
+              changeDate={changeDate} 
+              setChangeDate={setChangeDate}
+              setShowCreateEventForm={setShowCreateEventForm} />
+          </div>
         }
 
       {showUpdateTime &&
-            <div className="createEventForm">
-                <UpdateTimeForm setShowUpdateTime={setShowUpdateTime} changeDate={changeDate} setChangeDate={setChangeDate} draggingItem={draggingItem}/>
-            </div>
+        <div className="createEventForm">
+          <UpdateTimeForm 
+            changeDate={changeDate} 
+            setChangeDate={setChangeDate} 
+            draggingItem={draggingItem}
+            setShowUpdateTime={setShowUpdateTime} />
+        </div>
         }
         
         <ViteReact />
