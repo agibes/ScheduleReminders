@@ -1,83 +1,194 @@
-.calendar {
-  display: flex;
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
   text-align: center;
 }
 
-#previous, #next {
+/* WIDGETS */
+
+.widget {
+  resize: both;
+  overflow: auto;
   position: absolute;
-  top: 120px;
+  background-color: rgb(54, 54, 54); 
+  min-width: 200px;
+  min-height: 200px;
+  max-height: 850px;
+  max-width: 1400px;
+  border-radius: 20px;
+  top: 2%;
+  left: 2%;
+}
+
+.widgetHeader {
+  cursor: move;
+  background-color: rgb(73, 73, 73);
+  height: 30px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* ---------- */
+
+/* CALENDAR BUTTONS */
+
+#arrowButtons{
+  display:flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  grid-column: span 7;
+}
+
+#previous, #next {
+  position: relative;
+  top: 5px;
   height: 30px;
   width: fit-content;
-  align-self: center;
-  align-items: center;
   padding: 0 15px;
-  margin: 20px;
 }
 
 #previous {
-  left: 10vw;
+  left: 5px;
+  margin-right: 5px;
 }
 
 #next {
-  right: 10vw;
+  right: 5px;
+  margin-left: 5px;
+}
+/* ---------- */
+
+/* CALENDAR */
+
+#calendar {
+  height: 835px;
 }
 
-.calendar div.dayOfWeek:nth-child(2) {
-  border-left: 2px solid black;
-}
-
-.calendar div.dayOfWeek {
+.calendarComponent {
+  display: grid;
+  grid-template-columns:  repeat(7, minmax(120px, 197px));
+  padding: 0 10px;
+  margin-bottom: 10px;
   justify-content: center;
-  border-right: 2px solid black;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-  min-height: 70vh;
-  max-height: fit-content;
-  width: 10vw;
 }
 
-.calendar > div > p {
-  border-bottom: 1px solid black;
-  padding-bottom: 10px;
-  margin-bottom: 0;
+p.day {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
-.calendar .item {
-  width: inline-block;
-  cursor: pointer;
-  list-style: none;
-  padding: 3px 5px;
+.dayContainer {
+  position: relative;
+  overflow-y: scroll;
+  border: 1px solid black;
+  text-align: left;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.dayContainer::-webkit-scrollbar {
+  display: none;
+}
+
+/* WEEK */
+
+#calendarWeekComponent {
+  grid-template-rows: 50px 60px auto;
+  height: 95%;
+}
+
+/* ---------- */
+
+/* MONTH */
+
+#calendarMonthComponent {
+  grid-template-rows: 50px 40px repeat(6, 1fr);
+}
+
+#calendarMonthComponent .dayContainer {
+  max-height: 115px;
+}
+
+.dayContainer .item, .item {
+  background-color: rgba(10, 10, 10, 0.5);
+  box-shadow: -2px 2px 5px rgba(0,0,0,0.5);
   border: 1px solid black;
   border-radius: 5px;
-  background-color: rgba(10, 10, 10, 0.5);
-  margin:10px 10px 0px 10px;
-  box-shadow: -2px 2px 5px rgba(0,0,0,0.5);
+  margin: 5px 5px;
+  padding: 3px 5px;
+  cursor: pointer;
 }
 
-.calendar .item p {
-  margin: 0;
+.dayContainer .item p, .item p {
+  margin: 0;  
 }
 
-.calendar .item p.smallText {
+/* ---------- */
+
+/* SPECIAL TEXT */
+.smallText {
   font-size: .75rem;
-  color: rgba(255, 255, 255, 0.67);
+  color: rgba(255, 255, 255, 0.77);
 }
 
+.smallNumber {
+  font-size: .75rem;
+  color: rgba(255, 255, 255, 0.77);
+  padding-left: 5px;
+  margin: 0;
+  top: 0;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom-right-radius: 11px;
+  background-color: rgba(10, 10, 10, 0.2);
+  /* padding: 5px 7px 5px 5px; */
+  /* float: left; */
+  /* position: sticky; */
+  width: 100%;
+}
 
+.notCurrentMonth {
+  opacity: 50%;
+}
 
+/* ---------- */
+
+/* MENU BUTTONS */
+.icon {
+  filter: invert(99%) sepia(0%) saturate(2%) hue-rotate(224deg) brightness(108%) contrast(100%);
+  padding: 10px;
+}
+
+.menuButton {
+  position: absolute;
+  display: flex;
+  margin: 10px;
+  top: 0;
+}
 
 #addItemButton {
-  position: absolute;
-  margin: 10px;
-  top: 0;
   right: 0;
 }
-#calendarView {
-  position: absolute;
-  margin: 10px;
-  top: 0;
+
+#calendarButton {
+  padding: 0;
+  border: none;
   right: 7rem;
 }
+
+#timerButton {
+  padding: 0;
+  border: none;
+  right: 10rem;
+}
+/* ---------- */
+
+/* CREATE EVENT FORM */
 
 .createEventForm {
   width: 100vw;
@@ -126,56 +237,9 @@
   transform: translateX(-50%);
 }
 
-.item.dragging :where(#details) {
-  opacity: 0;
-}
+/* ---------- */
 
-
-
-.calendarMonthView .dayOfWeek {
-  display:grid;
-  grid-template-rows: .5fr 2fr 2fr 2fr 2fr 2fr 2fr;
-  grid-template-columns: repeat(1, 1fr [col-start]);
-}
-
-.smallNumber {
-  font-size: .75rem;
-  color: rgba(255, 255, 255, 0.77);
-  position: absolute;
-  display: inline-block;
-  padding: 5px 7px 5px 5px;
-  margin: 0;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-  border-bottom-right-radius: 11px;
-}
-
-.notCurrentMonth {
-  color: rgba(255, 255, 255, 0.47);
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-}
-
-.dateContainer {
-  border-bottom: 1px solid black;
-  /* height: 18%; */
-  width: 100%;
-  text-align: left;
-}
-
-.dateContainer .item {
-  margin:5px 10px 5px 40px;
-}
-
-
-
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
+/* REACT AND VITE */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -210,3 +274,4 @@
 .read-the-docs {
   color: #888;
 }
+/* ---------- */

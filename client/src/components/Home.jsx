@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {getAllEvents} from '../api';
-import {findWeekDates, findMonth, handleDrop} from '../utils';
-import {CalendarWeekView, CalendarMonthView, CreateEventForm, ViteReact, UpdateTimeForm} from './index';
+import {findWeekDates, findMonth, handleDrop, dragElement} from '../utils';
+import {CalendarWeekView, CalendarMonthView, CreateEventForm, ViteReact, UpdateTimeForm, Timer} from './index';
 import './App.css';
 
 const Home = () => {
     const [showCreateEventForm, setShowCreateEventForm] = useState(false);
-    const [showCalendarWeekView, setShowCalendarWeekView] = useState(true);
+    const [showCalendarWeekView, setShowCalendarWeekView] = useState(false);
     const [showCalendarMonthView, setShowCalendarMonthView] = useState(false);
     const [showUpdateTime, setShowUpdateTime] = useState(false);
+    const [showTimer, setShowTimer] = useState(false);
     
     const [draggingItem, setDraggingItem] = useState([]);
     const [eventItems, setEventItems] = useState([]);
@@ -28,6 +29,10 @@ const Home = () => {
       try {
         setMonthInFocus(findMonth(0, currentDateTime));
         setWeekInFocus(findWeekDates(0, currentDateTime));
+        const widgets = document.getElementsByClassName("widget");
+        for (var i = 0; i < widgets.length; i++) {
+          dragElement(widgets.item(i));
+       }
       } catch (err) {
         console.error(err);
       }
@@ -50,19 +55,43 @@ const Home = () => {
     }
   
     setInterval(updateTime, 1000);
-    
+
+
+
+    function changeDisplay(e) {      
+      if (e.target.id == "week") {
+        setShowCalendarWeekView(true);
+        setShowCalendarMonthView(false);
+        e.target.src = "../public/calendar-none.svg";
+        e.target.id = "none";
+      } else if (e.target.id == "month") {
+        setShowCalendarWeekView(false);
+        setShowCalendarMonthView(true);
+        e.target.src = "../public/calendar-week.svg";
+        e.target.id = "week";
+      } else {
+        setShowCalendarWeekView(false);
+        setShowCalendarMonthView(false);
+        e.target.src = "../public/calendar-month.svg";
+        e.target.id = "month";
+      }
+    }
     return (
         <div className="App">
         <p id="date">{currentDateTime.toLocaleDateString()}</p>
         <p id="clock">{currentDateTime.toLocaleTimeString()}</p>
-        <button id="addItemButton" onClick={() => setShowCreateEventForm(true)}>Add Item</button>
-        <button id="calendarView" onClick={() => {
-          setShowCalendarWeekView(!showCalendarWeekView);
-          setShowCalendarMonthView(!showCalendarMonthView);
-        }}>calendar view</button>
+
+        <button className="menuButton" id="addItemButton" onClick={() => setShowCreateEventForm(true)}>Add Item</button>
+        <button className="menuButton" id="calendarButton" onClick={(e) => changeDisplay(e)}>
+          <img className="icon" id="month" alt="Calendar Button" src="../public/calendar-month.svg" />
+        </button>
+        <button className="menuButton" id="timerButton" onClick={()=> setShowTimer(!showTimer)}>
+          <img className="icon" id="timer" alt="Timer Button" src="../public/timer.svg" />
+        </button>
   
         {showCalendarWeekView &&
-          <div className="calendar calendarWeekView">
+          <div id="calendar" className="widget">
+  
             <CalendarWeekView 
               changeDate={changeDate} 
               setChangeDate={setChangeDate} 
@@ -82,7 +111,7 @@ const Home = () => {
         }
 
         {showCalendarMonthView &&
-          <div className="calendar calendarMonthView">
+          <div id="calendar" className="widget">
             <CalendarMonthView 
               changeDate={changeDate} 
               setChangeDate={setChangeDate} 
@@ -119,8 +148,12 @@ const Home = () => {
             setShowUpdateTime={setShowUpdateTime} />
         </div>
         }
-        
-        <ViteReact />
+
+        {showTimer &&
+          <div id="timer" className="widget">
+            <Timer />
+          </div>
+        }
 
       </div>
     );
